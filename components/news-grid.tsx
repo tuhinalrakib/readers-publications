@@ -50,7 +50,7 @@ export function NewsGrid({ book_type, books }: { book_type: string, books: any[]
             <div className="relative w-full min-h-[340px] sm:min-h-[400px] flex flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:border-gray-200 hover:shadow-md hover:-translate-y-1">
               <div className="relative w-full aspect-[3/4] bg-gray-50 flex-shrink-0">
                 <Image
-                  src={book.cover_image ? `http://${book.cover_image}` : "/images/book-skeleton.jpg"}
+                  src={book.cover_image || "/images/book-skeleton.jpg"}
                   alt={book.title}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"

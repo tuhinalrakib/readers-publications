@@ -27,7 +27,7 @@ export function FeaturedBook({ book }: FeaturedBookProps) {
         <div className="grid md:grid-cols-2">
           <div className="relative flex h-[400px] items-center justify-center bg-slate-100 p-8 md:h-auto">
             <div className="relative h-full max-h-[400px] w-[250px] drop-shadow-xl">
-              <Image src={`http://${book.coverImage}` || "/placeholder.svg"} alt={book.title} fill className="object-contain" />
+              <Image src={book.coverImage || "/placeholder.svg"} alt={book.title} fill className="object-contain" />
             </div>
           </div>
           <div className="flex flex-col justify-center p-6 md:p-8">

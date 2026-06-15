@@ -51,7 +51,7 @@ export default function Home() {
 	const [bestSellingBooks, setBestSellingBooks] = useState<any[]>([]);
 	const { sendRequests: fetchBooks, isLoading: isBooksLoading } = useHttp();
 	
-console.log(popularBooks)
+	
 	/**
 	 * Fetch featured categories on component mount
 	 */
@@ -203,7 +203,7 @@ console.log(popularBooks)
 												href={"/books?category=" + category.id}
 												title={category?.name}
 												title_bn={category?.name_bn}
-												imageUrl={`http://${category?.image_url}` || ""}
+												imageUrl={category?.image_url || ""}
 												className="shadow-md hover:shadow-lg transition-shadow duration-300 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24"
 											/>
 										</div>

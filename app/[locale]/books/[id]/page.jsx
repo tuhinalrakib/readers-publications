@@ -331,7 +331,7 @@
                       )}
                     <div className="relative aspect-[3/4] rounded-lg overflow-hidden max-w-[380px] sm:max-w-[340px] mx-auto group">
                       <Image
-                        src={`http://${selectedBookImage?.image}` || "/images/book-skeleton.jpg"}
+                        src={selectedBookImage?.image || "/images/book-skeleton.jpg"}
                         alt={selectedBookImage?.alt_text || "Book cover"}
                         fill
                         className="object-contain group-hover:scale-105 transition-transform duration-300"
@@ -380,7 +380,7 @@
                       onClick={() => onSelectBookImage(image)}
                     >
                       <Image
-                        src={`http://${image.image}` || "/images/book-skeleton.jpg"}
+                        src={image.image || "/images/book-skeleton.jpg"}
                         alt={image.alt_text || "Book cover"}
                         fill
                         className="object-cover"

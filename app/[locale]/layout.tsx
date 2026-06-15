@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Readers Publications",
     images: [
       {
-        url: "/readers-icon.png",
+        url: "/rafi-publications.png",
         width: 800,
         height: 600,
         alt: "Readers Publications",
@@ -49,7 +49,7 @@ export default async function RootLayout({
   params
 }: Readonly<{
   children: React.ReactNode,
-  params: { locale: Locale }
+  params: Promise<{ locale: string }>
 }>) {
 
   // Ensure that the incoming `locale` is valid

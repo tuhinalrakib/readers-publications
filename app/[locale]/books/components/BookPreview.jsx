@@ -277,7 +277,7 @@ const BookPreviewModal = ({
 
                             {/* Page Image */}
                             <Image
-                              src={typeof img === "string" ? img : `http://${img?.image}` || "/placeholder.svg"}
+                              src={typeof img === "string" ? img : img?.image || "/placeholder.svg"}
                               alt={`${t("page")} ${idx + 1}`}
                               width={800}
                               height={1200}

@@ -79,10 +79,7 @@ export function SpecialOffersCarousel() {
 									className="basis-full md:basis-1/2">
 									<div className="p-1">
 										<Image
-											src={
-												`http://${offer.image}` ||
-												"/placeholder.svg"
-											}
+											src={offer.image || "/placeholder.svg"}
 											alt={`Special offer ${offer.uuid}`}
 											width={400}
 											height={300}

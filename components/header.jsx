@@ -28,6 +28,8 @@ export function Header() {
 
 	const currentLocale = locale;
 	const restOfPath = pathname.split("/").slice(2).join("/");
+	// const imageUrl = ;
+	// console.log(imageUrl)
 
 	/**
 	 * Change language and navigate to new locale

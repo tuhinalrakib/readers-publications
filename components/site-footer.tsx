@@ -80,7 +80,7 @@ export function SiteFooter() {
 
         <div className="mt-6 border-t pt-6 text-center text-sm text-gray-600">
           <p>© {new Date().getFullYear()} Readers Publications. {t('copyright')}</p>
-          <p>Developed by <a href="https://www.gigafide.com" target="_blank" className="text-gray-600 hover:text-gray-900">GigaFide</a></p>
+          <p>Developed by <a href="https://tuhinalrakib.vercel.app/" target="_blank" className="text-gray-600 hover:text-gray-900">Dev.Tuhin</a></p>
         </div>
       </div>
     </footer>

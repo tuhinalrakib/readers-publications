@@ -456,11 +456,7 @@ const BookCard = ({ book, locale, viewMode = "grid", onWishlistUpdate }) => {
 							)}
 							<Link href={`/${locale}/books/${localBook.slug}`}>
 								<Image
-									src={
-										localBook?.cover_image ?
-										`http://${localBook?.cover_image}` :
-										"/images/book-skeleton.jpg"
-									}
+									src={localBook?.cover_image || "/images/book-skeleton.jpg"}
 									alt={localBook.title}
 									fill
 									className="object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
@@ -578,12 +574,7 @@ const BookCard = ({ book, locale, viewMode = "grid", onWishlistUpdate }) => {
 
 				<Link href={`/${locale}/books/${localBook.slug}`}>
 					<Image
-						src={
-							localBook.cover_image ?
-							`http://${localBook?.cover_image}` 
-							:
-							"/images/book-skeleton.jpg"
-						}
+						src={localBook.cover_image || "/images/book-skeleton.jpg"}
 						alt={localBook.title}
 						fill
 						className="object-cover transition-transform duration-500 group-hover:scale-110"

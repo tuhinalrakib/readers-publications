@@ -124,7 +124,7 @@ export default function WishlistPage() {
             <div className="text-center text-gray-500 mt-10">
               <p>{t('empty')}</p>
               <Link
-                href={`/${currentLocale}/shop`}
+                href={`/${currentLocale}/books`}
                 className="inline-block mt-4 text-brand-600 hover:underline"
               >
                 Browse Books

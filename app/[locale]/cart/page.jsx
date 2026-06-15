@@ -113,7 +113,7 @@ export default function CartPage() {
                                 <Image
                                   width={200}
                                   height={200}
-                                  src={`http://${item?.book_details?.cover_image}` || "/images/book-skeleton.jpg"}
+                                  src={item?.book_details?.cover_image || "/images/book-skeleton.jpg"}
                                   alt={item?.book_details?.title || "Book Image"}
                                   className="h-20 w-14 sm:h-24 sm:w-16 lg:h-28 lg:w-20 object-cover rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
                                   loading="lazy"
