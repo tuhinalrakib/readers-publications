@@ -104,7 +104,7 @@ export function Navigation() {
           >
             <div className="relative h-10 w-24">
               <Image
-                src="/readers-icon.png"
+                src="/rafi-publications.png"
                 alt="Readers Publications Logo"
                 fill
                 className="object-contain"

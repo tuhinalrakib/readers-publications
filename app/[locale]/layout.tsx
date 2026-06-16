@@ -29,14 +29,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Readers Publications | Quality Books & Educational Materials",
     description: "Discover a wide range of quality books, journals, and educational materials for all ages at Readers Publications. Shop online with fast delivery.",
-    url: "https://readerspublications.com",
+    url: "https://rafi-publications.vercel.app",
     siteName: "Readers Publications",
     images: [
       {
         url: "/rafi-publications.png",
         width: 800,
         height: 600,
-        alt: "Readers Publications",
+        alt: "Rafi Publications",
       },
     ],
     locale: "en_US",
@@ -63,7 +63,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="light" style={{ colorScheme: "light" }}>
       <head> 
-        <link rel="icon" href="/readers-icon.png" />
+        <link rel="icon" href="/rafi-publications.png" />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>

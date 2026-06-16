@@ -29,7 +29,7 @@ export function Header() {
 	const currentLocale = locale;
 	const restOfPath = pathname.split("/").slice(2).join("/");
 	// const imageUrl = ;
-	// console.log(imageUrl)
+	console.log(generalData?.website_logo, "logo from redux")
 
 	/**
 	 * Change language and navigate to new locale
@@ -101,7 +101,7 @@ export function Header() {
 							className="transition-transform hover:scale-105">
 							<div className="relative h-12 w-32">
 								<Image
-									src={generalData?.website_logo || "/readers-icon.png"}
+									src={generalData?.website_logo || "/rafi-publications.png"}
 									alt="Readers Publications Logo"
 									fill
 									className="object-contain"
