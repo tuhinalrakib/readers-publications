@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import Link from "next/link"
-import { ShoppingCart, Trash2, Plus, Minus, Package } from "lucide-react"
+import { ShoppingCart, Trash2, Plus, Minus, Package, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
@@ -14,7 +14,7 @@ export default function CartPage() {
   const t = useTranslations("cart")
   const locale = useLocale()
   const generalData = useSelector((state) => state.generalData)
-  const { cartItems, updateQuantity, removeFromCart, fetchCartItems, updateSelectionStatusChange } = useCart()
+  const { cartItems, loading, updateQuantity, removeFromCart, fetchCartItems, updateSelectionStatusChange } = useCart()
   const allSelected = cartItems.every((item) => item.is_selected)
   const someSelected = cartItems.some((item) => item.is_selected)
   const router = useRouter()
@@ -50,7 +50,12 @@ export default function CartPage() {
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 max-w-7xl">
         <div className="w-full">
-          {cartItems.length > 0 ? (
+          {loading ? (
+            <div className="bg-white rounded-lg border border-gray-200 py-20 flex flex-col items-center justify-center">
+              <Loader2 className="h-12 w-12 animate-spin text-brand-600 mb-4" />
+              <p className="text-gray-500 text-sm">Loading your cart...</p>
+            </div>
+          ) : cartItems.length > 0 ? (
             <>
               {/* Page Header - Responsive */}
               <div className="mb-4 sm:mb-6">

@@ -3,7 +3,7 @@
 import { useTranslations, useLocale } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
-import { BookOpen, Users, Award, Star, PenLine, Calendar, Globe } from "lucide-react"
+import { BookOpen, Users, Award, Star, PenLine, Calendar, Globe, Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -30,6 +30,15 @@ export default function AuthorPage() {
       setAuthor(res)
     })
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 flex flex-col items-center justify-center py-20">
+        <Loader2 className="h-12 w-12 animate-spin text-brand-600 mb-4" />
+        <p className="text-slate-500 text-sm">Loading author profile...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-slate-50">

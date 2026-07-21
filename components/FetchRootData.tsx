@@ -16,6 +16,9 @@ function FetchRootData() {
     const isAuthUser = useSelector((state: any) => state.user.isAuthenticated)
 
     const fetchUserProfile = () => {
+      const accessToken = typeof window !== "undefined" ? localStorage.getItem("access_token") : null
+      if (!accessToken) return
+
       fetchUserProfileData({
         url_info: {
           url: API_ENDPOINTS.USER_PROFILE,
@@ -48,6 +51,7 @@ function FetchRootData() {
     useEffect(() => {
       if (!isAuthUser) {
         let cartItems = localStorage.getItem('cartItems')
+        // let cartItems = localStorage.setItem('cartItems')
         if (cartItems) {
           let cartItemsArray = JSON.parse(cartItems)
           cartItemsArray = cartItemsArray.map((item: any) => {

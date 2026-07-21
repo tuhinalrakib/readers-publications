@@ -25,6 +25,7 @@ const Wishlist = () => {
         sendRequests({
             url_info: {
                 url: API_ENDPOINTS.WISHLIST,
+                is_auth_required: true,
             },
             params: params,
         }, (data) => {
@@ -43,6 +44,7 @@ const Wishlist = () => {
         deleteWishlist({
             url_info: {
                 url: API_ENDPOINTS.WISHLIST_DELETE(id),
+                is_auth_required: true,
             },
             method: "DELETE",
         }, (data) => {
@@ -134,8 +136,8 @@ const Wishlist = () => {
                     <p className="mb-6 max-w-md text-gray-500">
                         Oh no! Your wishlist is empty.
                     </p>
-                    <Button className="bg-brand-600 hover:bg-brand-700">
-                        <Link href="/books">Browse Books</Link>
+                    <Button className="bg-brand-600 hover:bg-brand-700" asChild>
+                        <Link href={`/${locale}/books`}>Browse Books</Link>
                     </Button>
                 </div>
             )}

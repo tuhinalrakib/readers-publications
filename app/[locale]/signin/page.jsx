@@ -226,7 +226,7 @@ export default function SignInPage() {
                   className="w-full bg-brand-600 hover:bg-brand-700 transition-colors"
                   disabled={isGoogleLoginLoading || isLoading}
                 >
-                  {isGoogleLoginLoading ? (
+                  {isLoading || isGoogleLoginLoading ? (
                     <div className="flex items-center">
                       <svg
                         className="mr-2 h-4 w-4 animate-spin text-white"

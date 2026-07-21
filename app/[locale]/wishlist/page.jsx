@@ -24,6 +24,7 @@ export default function WishlistPage() {
     sendRequests({
       url_info: {
         url: API_ENDPOINTS.WISHLIST,
+        is_auth_required: true,
       },
       params: params,
     }, (data) => { 
@@ -42,6 +43,7 @@ export default function WishlistPage() {
     deleteWishlist({
       url_info: {
         url: API_ENDPOINTS.WISHLIST_DELETE(id),
+        is_auth_required: true,
       },
       method: "DELETE",
     }, (data) => {

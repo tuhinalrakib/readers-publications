@@ -6,7 +6,12 @@ function useHttp() {
   const [error, setError] = useState(null);
   const [downloadProgress, setDownloadProgress] = useState(0);
 
-  const sendRequests = (requestConfig, applyData, applyError=() => {}) => {
+  /**
+   * @param {any} requestConfig
+   * @param {(data: any) => void} applyData
+   * @param {(err?: any) => void} [applyError]
+   */
+  const sendRequests = (requestConfig, applyData, applyError = (err) => {}) => {
     setIsLoading(true);
     setError(null);
 

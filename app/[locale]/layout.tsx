@@ -22,6 +22,7 @@ export async function generateStaticParams() {
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   title: "Readers Publications | Quality Books & Educational Materials",
   description: "Discover a wide range of quality books, journals, and educational materials for all ages at Readers Publications. Shop online with fast delivery.",
   keywords: "books, educational materials, journals, readers publications, online bookstore",

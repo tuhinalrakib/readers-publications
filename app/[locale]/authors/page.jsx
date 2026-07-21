@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import Link from "next/link";
-import { BookOpen, Star, PenLine } from "lucide-react";
+import { BookOpen, Star, PenLine, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useHttp from "@/hooks/useHttp";
@@ -25,7 +25,8 @@ export default function AuthorsPage() {
 				},
 			},
 			(res) => {
-				setAuthors(res);
+				const authorList = Array.isArray(res) ? res : (res?.results || []);
+				setAuthors(authorList);
 			},
 		);
 	}, []);
@@ -52,12 +53,18 @@ export default function AuthorsPage() {
 
 			<section className="py-8">
 				<div className="container mx-auto px-4">
-					<div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{authors?.length === 0 && (
-							<div className="flex items-center justify-center col-span-full">
-								<p className="text-sm text-slate-500 text-center">No authors found :)</p>
-							</div>
-						)}
+					{isLoading ? (
+						<div className="flex flex-col items-center justify-center py-20">
+							<Loader2 className="h-10 w-10 animate-spin text-brand-600 mb-3" />
+							<p className="text-sm text-slate-500">Loading authors...</p>
+						</div>
+					) : (
+						<div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{authors?.length === 0 && (
+								<div className="flex items-center justify-center col-span-full py-12">
+									<p className="text-sm text-slate-500 text-center">No authors found :)</p>
+								</div>
+							)}
 						{authors.map((author) => (
 							<Link
 								key={author.id}
@@ -113,6 +120,7 @@ export default function AuthorsPage() {
 							</Link>
 						))}
 					</div>
+					)}
 				</div>
 			</section>
 		</div>

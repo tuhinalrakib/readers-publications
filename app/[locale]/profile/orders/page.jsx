@@ -1,16 +1,17 @@
 "use client";
 
-import { Clock, ShoppingBag, Package } from "lucide-react";
+import { Clock, ShoppingBag, Package, Loader2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import useHttp from "@/hooks/useHttp";
 import { API_ENDPOINTS } from "@/constants/apiEnds";
 import Pagination from "@/components/pagination";   
 
 const Orders = () => {
+    const locale = useLocale();
     const [orders, setOrders] = useState([]);
     const { sendRequests: fetchOrders, isLoading: isLoadingOrders } = useHttp();
     const [currentPage, setCurrentPage] = useState(1);
@@ -68,7 +69,12 @@ const Orders = () => {
                 </div>
             </div>
 
-            {orders.length > 0 ? (
+            {isLoadingOrders ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                    <Loader2 className="h-10 w-10 animate-spin text-brand-600 mb-3" />
+                    <p className="text-sm text-gray-500">Loading orders...</p>
+                </div>
+            ) : orders.length > 0 ? (
                 <div className="space-y-4">
                     {orders.map((order) => (
                         <div
@@ -122,7 +128,7 @@ const Orders = () => {
                                         className="w-full sm:w-auto transition-colors group-hover:border-brand-500 group-hover:text-brand-600 text-xs sm:text-sm"
                                         asChild
                                     >
-                                        <Link href={`/profile/orders/${order.order_id}`}>
+                                        <Link href={`/${locale}/profile/orders/${order.order_id}`}>
                                             {t("view_details")}
                                         </Link>
                                     </Button>
@@ -150,7 +156,7 @@ const Orders = () => {
                                     </span>
                                 </div>
                                 <Link
-                                    href={`/profile/orders/${order.order_id}`}
+                                    href={`/${locale}/profile/orders/${order.order_id}`}
                                     className="text-xs sm:text-sm font-medium text-brand-600 hover:text-brand-700"
                                 >
                                     {t("track_order")}
@@ -170,8 +176,8 @@ const Orders = () => {
                     <p className="mb-6 max-w-md text-xs sm:text-sm text-gray-500">
                         {t("no_orders_message")}
                     </p>
-                    <Button className="bg-brand-600 hover:bg-brand-700 text-xs sm:text-sm w-full sm:w-auto px-4 py-2">
-                        <Link href="/books">{t("browse_books")}</Link>
+                    <Button className="bg-brand-600 hover:bg-brand-700 text-xs sm:text-sm w-full sm:w-auto px-4 py-2" asChild>
+                        <Link href={`/${locale}/books`}>{t("browse_books")}</Link>
                     </Button>
                 </div>
             )}

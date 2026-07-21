@@ -1,6 +1,6 @@
 "use client"
 
-import { StarIcon, HeartIcon } from 'lucide-react'
+import { StarIcon, HeartIcon, Loader2 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -41,7 +41,11 @@ const Reviews = () => {
         <div className="rounded-xl bg-white p-6 shadow-lg">
             <h2 className="mb-6 text-xl font-semibold">{t("title")}</h2>
 
-            {reviews.length === 0 && (
+            {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <Loader2 className="h-12 w-12 animate-spin text-gray-400" />
+                </div>
+            ) : reviews.length === 0 ? (
                  <div className="flex flex-col items-center justify-center py-12 text-center">
                  <div className="mb-4 rounded-full bg-gray-100 p-6">
                      <HeartIcon className="h-12 w-12 text-gray-400" />
@@ -50,42 +54,41 @@ const Reviews = () => {
                  <p className="mb-6 max-w-md text-gray-500">
                      Oh no! Your reviews are empty.
                  </p>
-                 <Button className="bg-brand-600 hover:bg-brand-700">
-                     <Link href="/books">Browse Books</Link> 
+                 <Button className="bg-brand-600 hover:bg-brand-700" asChild>
+                     <Link href={`/${locale}/books`}>Browse Books</Link> 
                  </Button>
              </div> 
-            )}
-
-            <div className="space-y-6">
-                {reviews.map((review) => (
-                    <div key={review.id} className="border rounded-lg p-4 hover:border-brand-600 transition-colors">
-                        <div className="flex gap-4">
-                            <div className="flex-shrink-0">
-                                <Link href={`/${locale}/books/${review?.book?.slug}`}>
-                                <Image
-                                    src={review?.book?.cover_image || "/images/book-skeleton.jpg"}
-                                    alt={review?.book?.title || "Book Cover"}
-                                    width={120}
-                                    height={180}
-                                    className="rounded-md object-cover"
-                                />
-                                </Link>
-                            </div>
-                            <div className="flex-grow">
-                                <div className="flex items-center justify-between mb-2">
-                                    <Link href={`/${locale}/books/${review?.book?.slug}`} className="text-xl font-medium hover:text-brand-600">
-                                        {locale === "bn" ? review?.book?.title_bn : review?.book?.title}
+            ) : (
+                <div className="space-y-6">
+                    {reviews.map((review) => (
+                        <div key={review.id} className="border rounded-lg p-4 hover:border-brand-600 transition-colors">
+                            <div className="flex gap-4">
+                                <div className="flex-shrink-0">
+                                    <Link href={`/${locale}/books/${review?.book?.slug}`}>
+                                    <Image
+                                        src={review?.book?.cover_image || "/images/book-skeleton.jpg"}
+                                        alt={review?.book?.title || "Book Cover"}
+                                        width={120}
+                                        height={180}
+                                        className="rounded-md object-cover"
+                                    />
                                     </Link>
-                                    <div className="flex items-center">
-                                        <StarIcon className="h-5 w-5 text-yellow-400" />
-                                        <span className="ml-1">{review?.rating}</span>
+                                </div>
+                                <div className="flex-grow">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <Link href={`/${locale}/books/${review?.book?.slug}`} className="text-xl font-medium hover:text-brand-600">
+                                            {locale === "bn" ? review?.book?.title_bn : review?.book?.title}
+                                        </Link>
+                                        <div className="flex items-center">
+                                            <StarIcon className="h-5 w-5 text-yellow-400" />
+                                            <span className="ml-1">{review?.rating}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="text-sm text-gray-600 mb-2">
-                                    <Link href={`/${locale}/authors/${review.book?.author_name}`}>
-                                        <p>{locale === "bn" ? review.book?.author_name_bn : review.book?.author_name}</p>
-                                    </Link>
-                                </div>
+                                    <div className="text-sm text-gray-600 mb-2">
+                                        <Link href={`/${locale}/authors/${review.book?.author_slug || review.book?.author_name}`}>
+                                            <p>{locale === "bn" ? review.book?.author_name_bn : review.book?.author_name}</p>
+                                        </Link>
+                                    </div>
                                 <div className="border-t pt-2 mt-2">
                                     <p className="text-gray-700">{review.review}</p>
                                     <div className="mt-2 text-sm text-gray-500">
@@ -97,6 +100,7 @@ const Reviews = () => {
                     </div>
                 ))}
             </div>
+            )}
 
             {totalPages > 1 && <Pagination
                 currentPage={currentPage}

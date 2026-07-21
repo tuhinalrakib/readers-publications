@@ -15,14 +15,14 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { useSelector } from "react-redux";
-import { useTranslations } from "next-intl";
+import { useSelector, useDispatch } from "react-redux";
+import { useTranslations, useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/store/userSlice";
-import { useDispatch } from "react-redux";
 
 export default function ProfileLayout({ children }) {
   const pathname = usePathname();
+  const locale = useLocale();
   const { userInfo } = useSelector((state) => state.user);
   const t = useTranslations("profile");
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
@@ -116,7 +116,7 @@ export default function ProfileLayout({ children }) {
                 <div className="border-b border-gray-100 mt-2 mb-4"></div>
                 <nav className="space-y-1">
                   <Link
-                    href="/profile/orders"
+                    href={`/${locale}/profile/orders`}
                     className={`flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium ${
                       activeTab === "orders"
                         ? "bg-brand-50 text-brand-600"
@@ -127,7 +127,7 @@ export default function ProfileLayout({ children }) {
                     <span>{t("orders.title")}</span>
                   </Link>
                   <Link
-                    href="/profile/wishlist"
+                    href={`/${locale}/profile/wishlist`}
                     className={`flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium ${
                       activeTab === "wishlist"
                         ? "bg-brand-50 text-brand-600"
@@ -138,7 +138,7 @@ export default function ProfileLayout({ children }) {
                     <span>{t("wishlist.title")}</span>
                   </Link>
                   <Link
-                    href="/profile/reviews"
+                    href={`/${locale}/profile/reviews`}
                     className={`flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium ${
                       activeTab === "reviews"
                         ? "bg-brand-50 text-brand-600"
@@ -149,7 +149,7 @@ export default function ProfileLayout({ children }) {
                     <span>{t("reviews.title")}</span>
                   </Link>
                   <Link
-                    href="/profile/settings"
+                    href={`/${locale}/profile/settings`}
                     className={`flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium ${
                       activeTab === "settings"
                         ? "bg-brand-50 text-brand-600"

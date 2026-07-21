@@ -391,6 +391,7 @@ const BookCard = ({ book, locale, viewMode = "grid", onWishlistUpdate }) => {
 				{
 					url_info: {
 						url: API_ENDPOINTS.WISHLIST || "/api/wishlist",
+						is_auth_required: true,
 					},
 					method: "POST",
 					data: {
@@ -421,6 +422,7 @@ const BookCard = ({ book, locale, viewMode = "grid", onWishlistUpdate }) => {
 				{
 					url_info: {
 						url: deleteEndpoint,
+						is_auth_required: true,
 					},
 					method: "DELETE",
 				},

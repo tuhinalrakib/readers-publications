@@ -312,7 +312,7 @@ export default function SignUpPage() {
                       className={`pl-10 ${errors?.full_name ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "focus:border-brand-500 focus:ring-brand-500"}`}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                     />
                   </div>
                   {errors?.full_name && <p className="mt-1 text-xs text-red-500">{errors.full_name}</p>}
@@ -333,7 +333,7 @@ export default function SignUpPage() {
                       className={`pl-10 ${errors?.email ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "focus:border-brand-500 focus:ring-brand-500"}`}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                     />
                   </div>
                   {errors?.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
@@ -356,7 +356,7 @@ export default function SignUpPage() {
                       value={displayPhone}
                       onChange={handlePhoneChange}
                       onKeyDown={handlePhoneKeyDown}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                     />
                   </div>
                   {errors?.phone_number && <p className="mt-1 text-xs text-red-500">{errors.phone_number}</p>}
@@ -377,13 +377,13 @@ export default function SignUpPage() {
                       className={`pl-10 pr-10 ${errors?.password ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "focus:border-brand-500 focus:ring-brand-500"}`}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                     />
                     <button
                       type="button"
                       className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500"
                       onClick={togglePasswordVisibility}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                     >
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
@@ -406,13 +406,13 @@ export default function SignUpPage() {
                       className={`pl-10 pr-10 ${errors?.confirm_password ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "focus:border-brand-500 focus:ring-brand-500"}`}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                     />
                     <button
                       type="button"
                       className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500"
                       onClick={toggleConfirmPasswordVisibility}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                     >
                       {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
@@ -426,16 +426,16 @@ export default function SignUpPage() {
                       id="agree-terms"
                       checked={agreeTerms}
                       onCheckedChange={(checked) => setAgreeTerms(checked)}
-                      disabled={isSignUpLoading}
+                      disabled={isSignUpLoading || isGoogleLoginLoading}
                       className={errors?.agreeTerms ? "border-red-500 text-red-500" : ""}
                     />
                     <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-700">
                       {t('ami')} {" "} {t('agree')} {" "}
-                      <Link href="/terms" className="text-brand-600 hover:text-brand-500">
+                      <Link href={`/${currentLocale}/terms`} className="text-brand-600 hover:text-brand-500">
                         {t('terms')}
                       </Link>{" "}
                       {t('and')} {" "}
-                      <Link href="/privacy" className="text-brand-600 hover:text-brand-500">
+                      <Link href={`/${currentLocale}/privacy`} className="text-brand-600 hover:text-brand-500">
                         {t('privacy')}
                       </Link>
                     </label>
@@ -447,13 +447,13 @@ export default function SignUpPage() {
                   <Button
                     type="submit"
                     className="w-full bg-brand-600 hover:bg-brand-700 transition-colors"
-                    disabled={isSignUpLoading}
+                    disabled={isSignUpLoading || isGoogleLoginLoading}
                   >
                     {isSignUpLoading ? (
                       <div className="flex items-center">
                         <svg
                           className="mr-2 h-4 w-4 animate-spin text-white"
-                          xmlns="https://www.w3.org/2000/svg"
+                          xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
                         >

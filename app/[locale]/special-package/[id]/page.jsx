@@ -6,11 +6,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, Package, Star, BookOpen, Users, Clock } from "lucide-react"
 import useHttp from "@/hooks/useHttp"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { API_ENDPOINTS } from "@/constants/apiEnds"
 import { useLocale } from "next-intl"
 import Link from "next/link"
+import useCart from "@/hooks/useCart"
 
 /**
  * Special Package Detail Component
@@ -18,9 +19,39 @@ import Link from "next/link"
  */
 export default function Component() {
   const { id } = useParams()
+  const router = useRouter()
   const [packageInfo, setPackageInfo] = useState({})
   const { sendRequests, isLoading, error } = useHttp()
   const locale = useLocale()
+  const { addToCart } = useCart()
+
+  const handleOrderPackage = () => {
+    if (packageInfo?.books?.length) {
+      packageInfo.books.forEach((book) => {
+        let cartBook = {
+          quantity: 1,
+          book_details: {
+            id: book.id,
+            slug: book.slug,
+            title: book.title,
+            title_bn: book.title_bn,
+            cover_image: book.cover_image,
+            price: book.price,
+            discounted_price: book.discounted_price,
+            is_available: book.is_available,
+          },
+          author_details: {
+            id: book.author_id,
+            slug: book.author_slug,
+            name: book.author_full_name,
+            name_bn: book.author_full_name_bn,
+          }
+        }
+        addToCart(cartBook, 1)
+      })
+      router.push(`/${locale}/cart`)
+    }
+  }
 
   /**
    * Fetch package details from API on component mount
@@ -251,7 +282,7 @@ export default function Component() {
                   </div>
                 </div>
 
-                <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 sm:py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base">
+                <Button onClick={handleOrderPackage} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 sm:py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base">
                   <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   প্যাকেজ অর্ডার করুন
                 </Button>

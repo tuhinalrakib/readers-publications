@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import useHttp from "@/hooks/useHttp"
 import { API_ENDPOINTS } from "@/constants/apiEnds"
 import { useEffect, useState } from "react"
@@ -10,6 +10,7 @@ import Link from "next/link"
 
 export default function SpecialPackagesPage() {
   const t = useTranslations("special_package")
+  const locale = useLocale()
   const { sendRequests, isLoading, error } = useHttp()
   const [specialPackages, setSpecialPackages] = useState([])
   const [totalPages, setTotalPages] = useState(0)
@@ -42,33 +43,41 @@ export default function SpecialPackagesPage() {
           <p className="mt-2 text-sm text-gray-600">{t("description")}</p>
         </div>
 
-        {isLoading && <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-        </div>}
+        {isLoading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        )}
 
-        {error && <div className="flex justify-center items-center h-screen">
-          <p className="text-red-500">{error?.message}</p>
-        </div>}
+        {error && (
+          <div className="flex justify-center items-center py-20">
+            <p className="text-red-500">{error?.message || "Failed to load special packages"}</p>
+          </div>
+        )}
 
-        {specialPackages.length === 0 && <div className="flex justify-center items-center h-screen">
-          <p className="text-gray-500">No special packages found</p>
-        </div>}
+        {!isLoading && !error && specialPackages.length === 0 && (
+          <div className="flex justify-center items-center py-20">
+            <p className="text-gray-500">No special packages found</p>
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {specialPackages.map((pkg) => (
-            <div key={pkg.uuid} className="rounded-lg overflow-hidden shadow-md bg-white">
-              <Link href={`/special-package/${pkg.uuid}`}>  
-                  <Image
-                    src={pkg.image || "banner-ex2.avif"}
-                    alt={`Package ${pkg.uuid}`}
-                    width={600}
-                    height={400}
-                    className="w-full h-80 object-cover"
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
+        {!isLoading && !error && specialPackages.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {specialPackages.map((pkg) => (
+              <div key={pkg.uuid} className="rounded-lg overflow-hidden shadow-md bg-white">
+                <Link href={`/${locale}/special-package/${pkg.uuid}`}>  
+                    <Image
+                      src={pkg.image || "/banner-ex2.avif"}
+                      alt={`Package ${pkg.uuid}`}
+                      width={600}
+                      height={400}
+                      className="w-full h-80 object-cover"
+                  />
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {totalPages > 1 && <Pagination

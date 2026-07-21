@@ -49,7 +49,7 @@ export default function BlogDetailPage() {
                 {!isLoading && error && (
                     <div className="text-center py-12 bg-red-50 rounded-2xl shadow-lg">
                         <Link
-                            href="/blog"
+                            href={`/${locale}/blog`}
                             className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300"
                         >
                             Back to Blog List
@@ -97,14 +97,14 @@ export default function BlogDetailPage() {
                                 <div className="prose prose-lg max-w-none text-gray-800 leading-8">
                                     <div
                                         dangerouslySetInnerHTML={{
-                                            __html: locale === "bn" ? post.content_bn : post.content,
+                                            __html: (locale === "bn" ? post?.content_bn : post?.content) || post?.content || "",
                                         }}
                                     />
                                 </div>
 
                                 <div className="mt-10 flex justify-between items-center">
                                     <Link
-                                        href="/blog"
+                                        href={`/${locale}/blog`}
                                         className="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold text-sm sm:text-base shadow-md hover:shadow-lg"
                                     >
                                         <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

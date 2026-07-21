@@ -15,7 +15,8 @@
     Eye,
     ChevronLeft,
     ChevronRight,
-    Edit
+    Edit,
+    Loader2
   } from "lucide-react"
   import { Button } from "@/components/ui/button"
   import { Badge } from "@/components/ui/badge"
@@ -246,6 +247,7 @@
         addToWishlist({
           url_info: {
             url: API_ENDPOINTS.WISHLIST,
+            is_auth_required: true,
           },
           method: "POST",
           data: {
@@ -261,6 +263,7 @@
         removeFromWishlist({
           url_info: {
             url: API_ENDPOINTS.WISHLIST_DELETE(`book_${bookData.id}`),
+            is_auth_required: true,
           },
           method: "DELETE",
         }, (data) => {
@@ -301,6 +304,15 @@
           }
         )
       }
+    }
+
+    if (isBookLoading || !bookData) {
+      return (
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-20">
+          <Loader2 className="h-12 w-12 animate-spin text-brand-600 mb-4" />
+          <p className="text-gray-500 text-sm">Loading book details...</p>
+        </div>
+      )
     }
 
     return (
@@ -399,7 +411,7 @@
                   {locale === "bn" ? bookData?.title_bn : bookData?.title}
                 </h1>
                 <div className="flex flex-col gap-3">
-                  <Link href="#" className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-2">
+                  <Link href={`/${locale}/authors/${bookData?.author?.slug}`} className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-2">
                     <Edit className="h-4 w-4" />
                     <span>{locale === "bn" ? bookData?.author?.name_bn : bookData?.author?.name}</span>
                   </Link>

@@ -28,7 +28,7 @@ export default function CheckoutPage() {
   const [showAddressModal, setShowAddressModal] = useState(false)
   const {sendRequests: fetchShippingAddress} = useHttp()
   const {sendRequests: deleteShippingAddress} = useHttp()
-  const {sendRequests: createOrder} = useHttp()
+  const {sendRequests: createOrder, isLoading: isCreatingOrder} = useHttp()
   // Address form state
   const [isEditAddress, setIsEditAddress] = useState<boolean>(false)
   const [editAddress, setEditAddress] = useState<any>({})
@@ -48,8 +48,9 @@ export default function CheckoutPage() {
         isAuthRequired: true
       }
     }, (res: any) => {
-      setAddresses(res)
-      setSelectedAddress(res.find((address: any) => address.is_default)?.id || null)
+      const addrList = Array.isArray(res) ? res : (res?.results || [])
+      setAddresses(addrList)
+      setSelectedAddress(addrList.find((address: any) => address.is_default)?.id || null)
     })
   }, [])
   
@@ -411,7 +412,7 @@ export default function CheckoutPage() {
                     />
                     <label htmlFor="terms" className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                       {t("policy_agree")}
-                      <a href="#" className="text-blue-600 hover:underline">
+                      <a href={`/${locale}/terms`} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
                         {" "} {t("terms_and_conditions")}
                       </a>
                     </label>
@@ -421,9 +422,35 @@ export default function CheckoutPage() {
                   <Button
                     className="w-full py-3 sm:py-4 text-base sm:text-lg bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
                     onClick={handleSubmitOrder}
-                    disabled={!selectedPayment || !termsAccepted}
+                    disabled={!selectedPayment || !termsAccepted || isCreatingOrder}
                   >
-                    {t("confirm_order")} ৳{total.toLocaleString()}
+                    {isCreatingOrder ? (
+                      <div className="flex items-center justify-center">
+                        <svg
+                          className="mr-2 h-5 w-5 animate-spin text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        <span>Processing...</span>
+                      </div>
+                    ) : (
+                      <>{t("confirm_order")} ৳{total.toLocaleString()}</>
+                    )}
                   </Button>
                   {commonError && (
                     <p className="text-red-500 text-sm sm:text-base text-center">{commonError}</p>

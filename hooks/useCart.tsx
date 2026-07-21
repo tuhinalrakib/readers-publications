@@ -20,20 +20,18 @@ const useCart = () => {
     setLoading(true)
     setError(null)
     
-    try {
-      sendRequests({
-        url_info: {
-          url: API_ENDPOINTS.CART_LIST,
-        },
-        params: params,
-      }, (response: any) => {
-        setCartItems(response)
-        setLoading(false)
-      })
-    } catch (err: any) {
-      setError(err.message)
+    sendRequests({
+      url_info: {
+        url: API_ENDPOINTS.CART_LIST,
+      },
+      params: params,
+    }, (response: any) => {
+      setCartItems(response)
       setLoading(false)
-    }
+    }, (err: any) => {
+      setError(err)
+      setLoading(false)
+    })
   }
 
   const fetchCartItemsUnAuthUser = async () => {
@@ -56,30 +54,28 @@ const useCart = () => {
     setLoading(true)
     setError(null)
     
-    try {
-      sendRequests({
-        url_info: {
-          url: API_ENDPOINTS.ADD_TO_CART,
-        },
-        method: 'POST',
-        data: {
-          book: bookId,
-          quantity: quantity,
-          user: user.id
-        },
-      }, (response: any) => {
-        let cart = {
-          book_id: bookId,
-          quantity: quantity,
-          uuid: response.uuid,
-        }
-        dispatch(addCartItem(cart))
-        setLoading(false)
-      })
-    } catch (err: any) {
-      setError(err.message)
+    sendRequests({
+      url_info: {
+        url: API_ENDPOINTS.ADD_TO_CART,
+      },
+      method: 'POST',
+      data: {
+        book: bookId,
+        quantity: quantity,
+        user: user?.id
+      },
+    }, (response: any) => {
+      let cart = {
+        book_id: bookId,
+        quantity: quantity,
+        uuid: response.uuid,
+      }
+      dispatch(addCartItem(cart))
       setLoading(false)
-    }
+    }, (err: any) => {
+      setError(err)
+      setLoading(false)
+    })
   }
 
   const addToCartUnAuthUser = async (book: any, quantity = 1) => {
@@ -123,21 +119,19 @@ const useCart = () => {
     setLoading(true)
     setError(null)
     
-    try {
-      sendRequests({
-        url_info: {
-          url: API_ENDPOINTS.DELETE_CART_ITEM(cartItemId),
-        },
-        method: 'DELETE',
-      }, (response: any) => {
-        setCartItems(prev => prev.filter((item: any) => item.uuid !== cartItemId))
-        dispatch(removeCartItem([cartItemId]))
-        setLoading(false)
-      })
-    } catch (err: any) {
-      setError(err.message)
+    sendRequests({
+      url_info: {
+        url: API_ENDPOINTS.DELETE_CART_ITEM(cartItemId),
+      },
+      method: 'DELETE',
+    }, (response: any) => {
+      setCartItems(prev => prev.filter((item: any) => item.uuid !== cartItemId))
+      dispatch(removeCartItem([cartItemId]))
       setLoading(false)
-    }
+    }, (err: any) => {
+      setError(err)
+      setLoading(false)
+    })
   }
 
   const removeFromCartUnAuthUser = async (cartItemId: number | string) => {
@@ -165,23 +159,21 @@ const useCart = () => {
     setLoading(true)
     setError(null)
     
-    try {
-      sendRequests({
-        url_info: {
-          url: API_ENDPOINTS.UPDATE_CART_QUANTITY(cartItemId),
-        },
-        method: 'PATCH',
-        data: {
-          quantity: newQuantity,
-        },
-      }, (response: any) => {
-        setCartItems(prev => prev.map((item: any) => item.uuid === cartItemId ? response : item))
-        setLoading(false)
-      })
-    } catch (err: any ) {
-      setError(err.message)
+    sendRequests({
+      url_info: {
+        url: API_ENDPOINTS.UPDATE_CART_QUANTITY(cartItemId),
+      },
+      method: 'PATCH',
+      data: {
+        quantity: newQuantity,
+      },
+    }, (response: any) => {
+      setCartItems(prev => prev.map((item: any) => item.uuid === cartItemId ? response : item))
       setLoading(false)
-    }
+    }, (err: any) => {
+      setError(err)
+      setLoading(false)
+    })
   }
 
   const updateQuantityUnAuthUser = async (cartItemId: number | string, newQuantity: number) => {
