@@ -17,6 +17,7 @@ import { Alert } from "@/components/ui/alert"
 import { setIsAuthenticated, setUserInfo } from "@/store/userSlice"
 import { useDispatch } from "react-redux"
 import { setCartItems } from "@/store/cart"
+import { isAdminUser } from "@/utils/generalFunc"
 
 export default function SignInPage() {
   const t = useTranslations('signin');
@@ -78,12 +79,14 @@ export default function SignInPage() {
         console.log("called=====")
 
         setTimeout(() => {
-          if(!["", null, undefined].includes(redirectUrl)) {
+          if (isAdminUser(response?.user_info)) {
+            router.push(`/${currentLocale}/admin`)
+          } else if(!["", null, undefined].includes(redirectUrl)) {
             router.push(redirectUrl)
           } else {
-            router.push("/")
+            router.push(`/${currentLocale}`)
           }
-        }, 1000)
+        }, 500)
       }, (err) => {
         setErrors(err)
       })
@@ -110,12 +113,14 @@ export default function SignInPage() {
         dispatch(setCartItems(data.user_info.cart_items))  
 
         setTimeout(() => {
-          if(!["", null, undefined].includes(redirectUrl)) {
+          if (isAdminUser(data?.user_info)) {
+            router.push(`/${currentLocale}/admin`)
+          } else if(!["", null, undefined].includes(redirectUrl)) {
             router.push(redirectUrl)
           } else {
-            router.push("/")
+            router.push(`/${currentLocale}`)
           }
-        }, 1000)
+        }, 500)
       })
     },
     onError: () => {

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { Search, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import { FaHeadphones, FaGift, FaShoppingCart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { isAdminUser } from "@/utils/generalFunc";
 
 export function Header() {
 	const t = useTranslations("header");
@@ -198,23 +199,38 @@ export function Header() {
 						{/* Desktop Auth Buttons */}
 						<div className="flex items-center space-x-4">
 							{isAuthenticated ? (
-								<Link
-									href={`/${currentLocale}/profile`}
-									className="flex flex-col items-center text-sm font-medium text-gray-700 hover:text-brand-700">
-									<div className="h-8 w-8 rounded-full bg-brand-50 overflow-hidden flex items-center justify-center">
-										<Image
-											src={
-												userInfo?.profile_picture ||
-												"/default_profile.png"
-											}
-											alt={t("profile")}
-											width={40}
-											height={40}
-											className="object-cover h-full w-full"
-										/>
-									</div>
-									<span className="mt-1">{t("profile")}</span>
-								</Link>
+								<>
+									{isAdminUser(userInfo) && (
+										<Link
+											href={`/${currentLocale}/admin`}
+											className="group flex flex-col items-center transition-transform hover:scale-105"
+											aria-label="Admin Panel">
+											<div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 p-1.5 text-purple-700 transition-colors group-hover:bg-purple-200">
+												<ShieldCheck className="h-4 w-4" />
+											</div>
+											<span className="mt-1 text-xs font-semibold text-purple-700">
+												Admin
+											</span>
+										</Link>
+									)}
+									<Link
+										href={`/${currentLocale}/profile`}
+										className="flex flex-col items-center text-sm font-medium text-gray-700 hover:text-brand-700">
+										<div className="h-8 w-8 rounded-full bg-brand-50 overflow-hidden flex items-center justify-center">
+											<Image
+												src={
+													userInfo?.profile_picture ||
+													"/default_profile.png"
+												}
+												alt={t("profile")}
+												width={40}
+												height={40}
+												className="object-cover h-full w-full"
+											/>
+										</div>
+										<span className="mt-1 text-xs">{t("profile")}</span>
+									</Link>
+								</>
 							) : (
 								<>
 									<Link href={`/${currentLocale}/signin`}>

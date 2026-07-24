@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslations, useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/store/userSlice";
+import { isAdminUser } from "@/utils/generalFunc";
 
 export default function ProfileLayout({ children }) {
   const pathname = usePathname();
@@ -36,7 +37,7 @@ export default function ProfileLayout({ children }) {
     dispatch(logout());
     localStorage.removeItem("access_token")
     localStorage.removeItem("refresh_token")
-    router.push("/");
+    router.push(`/${locale}`);
   }
 
   return (
@@ -115,6 +116,15 @@ export default function ProfileLayout({ children }) {
               } overflow-hidden`}>
                 <div className="border-b border-gray-100 mt-2 mb-4"></div>
                 <nav className="space-y-1">
+                  {isAdminUser(userInfo) && (
+                    <Link
+                      href={`/${locale}/admin`}
+                      className="flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-bold bg-purple-50 text-purple-700 hover:bg-purple-100"
+                    >
+                      <Settings className="mr-3 h-5 w-5 text-purple-600" />
+                      <span>Admin Panel</span>
+                    </Link>
+                  )}
                   <Link
                     href={`/${locale}/profile/orders`}
                     className={`flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium ${

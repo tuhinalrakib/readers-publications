@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, Search } from "lucide-react"
+import { Menu, X, Search, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -11,6 +11,7 @@ import { useLocale, useTranslations } from "next-intl"
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { FaShoppingCart } from "react-icons/fa"
 import { useSelector } from "react-redux"
+import { isAdminUser } from "@/utils/generalFunc"
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -151,24 +152,37 @@ export function Navigation() {
 
             {/* Mobile Auth */}
             {isAuthenticated ? (
-              <Link
-                href={`/${locale}/profile`}
-                className="flex flex-col items-center text-sm font-medium text-white hover:text-brand-100"
-              >
-                <div className="h-8 w-8 rounded-full bg-white/20 overflow-hidden flex items-center justify-center">
-                  <Image
-                    src={
-                      userInfo?.profile_picture ||
-                      "/default_profile.png"
-                    }
-                    alt={t("profile")}
-                    width={40}
-                    height={40}
-                    className="object-cover h-full w-full"
-                  />
-                </div>
-                <span className="mt-1 text-xs font-medium">{t("profile")}</span>
-              </Link>
+              <div className="flex items-center gap-3">
+                {isAdminUser(userInfo) && (
+                  <Link
+                    href={`/${locale}/admin`}
+                    className="flex flex-col items-center text-xs font-semibold text-purple-200 hover:text-white"
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500/40 p-1.5 text-white">
+                      <ShieldCheck className="h-4 w-4" />
+                    </div>
+                    <span className="mt-1">Admin</span>
+                  </Link>
+                )}
+                <Link
+                  href={`/${locale}/profile`}
+                  className="flex flex-col items-center text-sm font-medium text-white hover:text-brand-100"
+                >
+                  <div className="h-8 w-8 rounded-full bg-white/20 overflow-hidden flex items-center justify-center">
+                    <Image
+                      src={
+                        userInfo?.profile_picture ||
+                        "/default_profile.png"
+                      }
+                      alt={t("profile")}
+                      width={40}
+                      height={40}
+                      className="object-cover h-full w-full"
+                    />
+                  </div>
+                  <span className="mt-1 text-xs font-medium">{t("profile")}</span>
+                </Link>
+              </div>
             ) : (
               <Link href={`/${locale}/signin`}>
                 <Button size="sm" variant="secondary">{t("signIn")}</Button>
@@ -207,6 +221,16 @@ export function Navigation() {
                 {/* Sheet Body */}
                 <div className="py-4">
                   <nav className="space-y-1 px-6">
+                    {isAdminUser(userInfo) && (
+                      <Link
+                        href={`/${locale}/admin`}
+                        className="flex items-center gap-2 rounded-lg px-4 py-3 text-base font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 transition-all mb-2"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <ShieldCheck className="h-5 w-5 text-purple-600" />
+                        <span>Admin Panel</span>
+                      </Link>
+                    )}
                     {mainLinks.map(link => (
                       <Link
                         key={link.href}

@@ -45,6 +45,8 @@ export const metadata: Metadata = {
   },
 }
 
+import MainLayoutWrapper from "@/components/MainLayoutWrapper"
+
 export default async function RootLayout({
   children,
   params
@@ -71,13 +73,8 @@ export default async function RootLayout({
           <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
             <NextIntlClientProvider messages={messages} locale={locale}>
               <Providers>
-                <div className="relative flex min-h-screen flex-col">
-                  <FetchRootData />
-                  <Header />
-                  <Navigation />
-                  <main className="flex-1">{children}</main>
-                  <SiteFooter />
-                </div>
+                <FetchRootData />
+                <MainLayoutWrapper>{children}</MainLayoutWrapper>
               </Providers>
             </NextIntlClientProvider>
           </GoogleOAuthProvider>
